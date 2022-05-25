@@ -18,6 +18,7 @@ async function run() {
     client.connect()
     const partsCollection = client.db("cycle").collection("parts");
     const orderCollection = client.db("cycle").collection("orders");
+    const usersCollection = client.db("cycle").collection("users");
     try {
         app.get('/parts', async (req, res) => {
             const query = {}
@@ -44,6 +45,11 @@ async function run() {
         app.post('/orders', async (req, res) => {
             const query = req.body
             const result = await orderCollection.insertOne(query)
+            res.send(result)
+        })
+        app.post('/users', async (req, res) => {
+            const query = req.body
+            const result = await usersCollection.insertOne(query)
             res.send(result)
         })
 
