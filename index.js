@@ -33,7 +33,6 @@ async function run() {
         app.put('/parts/:id', async (req, res) => {
             const id = req.params.id
             const quantity = req.body
-            console.log(quantity)
             const filter = { _id: ObjectId(id) }
             const options = { upsert: true }
             const updatedDoc = {
