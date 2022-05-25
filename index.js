@@ -42,6 +42,11 @@ async function run() {
             const result = await partsCollection.updateOne(filter, updatedDoc, options)
             res.send(result)
         })
+        app.get('/orders', async (req, res) => {
+            const query = {}
+            const result = await orderCollection.find(query).toArray()
+            res.send(result)
+        })
         app.post('/orders', async (req, res) => {
             const query = req.body
             const result = await orderCollection.insertOne(query)
@@ -52,6 +57,17 @@ async function run() {
             const result = await usersCollection.insertOne(query)
             res.send(result)
         })
+        // app.put('/users/:email', async (req, res) => {
+        //     const email = req.params.email
+        //     const user = req.body
+        //     const filter = { userEmail: email }
+        //     const options = { upsert: true }
+        //     const updatedDoc = {
+        //         $set: user
+        //     }
+        //     const result = await usersCollection.updateOne(filter, updatedDoc, options)
+        //     res.send(result)
+        // })
 
     } finally {
 
