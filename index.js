@@ -19,6 +19,9 @@ async function run() {
     const partsCollection = client.db("cycle").collection("parts");
     const orderCollection = client.db("cycle").collection("orders");
     const usersCollection = client.db("cycle").collection("users");
+    const reviewsCollection = client.db("cycle").collection("reviews");
+
+
     try {
         app.get('/parts', async (req, res) => {
             const query = {}
@@ -61,6 +64,16 @@ async function run() {
         app.post('/users', async (req, res) => {
             const query = req.body
             const result = await usersCollection.insertOne(query)
+            res.send(result)
+        })
+        app.get('/reviews', async (req, res) => {
+            const query = {}
+            const result = await reviewsCollection.find(query).toArray()
+            res.send(result)
+        })
+        app.post('/reviews', async (req, res) => {
+            const query = req.body
+            const result = await reviewsCollection.insertOne(query)
             res.send(result)
         })
         // app.put('/users/:email', async (req, res) => {
