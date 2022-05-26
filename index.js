@@ -20,6 +20,7 @@ async function run() {
     const orderCollection = client.db("cycle").collection("orders");
     const usersCollection = client.db("cycle").collection("users");
     const reviewsCollection = client.db("cycle").collection("reviews");
+    const profileCollection = client.db("cycle").collection("profiles");
 
 
     try {
@@ -72,14 +73,25 @@ async function run() {
             const result = await orderCollection.insertOne(query)
             res.send(result)
         })
-        app.get('/users', async (req, res) => {
-            const query = {}
-            const result = await usersCollection.find(query).toArray()
-            res.send(result)
+        app.get('/users/:email', async (req, res) => {
+            const email = req.params.email
+            const query = { userEmail: email }
+            const user = await usersCollection.findOne(query)
+            const isAdmin = user.role === "admin"
+            res.send({ admin: isAdmin })
         })
         app.post('/users', async (req, res) => {
             const query = req.body
             const result = await usersCollection.insertOne(query)
+            res.send(result)
+        })
+        app.put('/users/admin/:email', async (req, res) => {
+            const email = req.params.email
+            const filter = { userEmail: email }
+            const updatedDoc = {
+                $set: { role: 'admin' },
+            }
+            const result = await usersCollection.updateOne(filter, updatedDoc)
             res.send(result)
         })
         app.get('/reviews', async (req, res) => {
@@ -90,6 +102,17 @@ async function run() {
         app.post('/reviews', async (req, res) => {
             const query = req.body
             const result = await reviewsCollection.insertOne(query)
+            res.send(result)
+        })
+        app.get('/profiles/:email', async (req, res) => {
+            const email = req.params.email
+            const query = { email: email }
+            const result = await profileCollection.find(query).toArray()
+            res.send(result)
+        })
+        app.post('/profiles', async (req, res) => {
+            const query = req.body
+            const result = await profileCollection.insertOne(query)
             res.send(result)
         })
         // app.put('/users/:email', async (req, res) => {
