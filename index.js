@@ -29,6 +29,11 @@ async function run() {
             const cursor = await partsCollection.find(query).toArray()
             res.send(cursor)
         })
+        app.post('/parts', async (req, res) => {
+            const query = req.body
+            const result = await partsCollection.insertOne(query)
+            res.send(result)
+        })
         app.get('/parts/:id', async (req, res) => {
             const id = req.params.id
             const query = { _id: ObjectId(id) }
@@ -77,6 +82,11 @@ async function run() {
         app.post('/orders', async (req, res) => {
             const query = req.body
             const result = await orderCollection.insertOne(query)
+            res.send(result)
+        })
+        app.get('/users', async (req, res) => {
+            const query = {}
+            const result = await usersCollection.find(query).toArray()
             res.send(result)
         })
         app.get('/users/:email', async (req, res) => {
