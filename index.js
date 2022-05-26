@@ -54,7 +54,7 @@ async function run() {
         app.delete('/parts/:id', async (req, res) => {
             const id = req.params.id
             const filter = { _id: ObjectId(id) }
-            const result = await orderCollection.deleteOne(filter)
+            const result = await partsCollection.deleteOne(filter)
             res.send(result)
         })
         app.get('/orders', async (req, res) => {
@@ -137,17 +137,6 @@ async function run() {
             const result = await profileCollection.insertOne(query)
             res.send(result)
         })
-        // app.put('/users/:email', async (req, res) => {
-        //     const email = req.params.email
-        //     const user = req.body
-        //     const filter = { userEmail: email }
-        //     const options = { upsert: true }
-        //     const updatedDoc = {
-        //         $set: user
-        //     }
-        //     const result = await usersCollection.updateOne(filter, updatedDoc, options)
-        //     res.send(result)
-        // })
 
     } finally {
 
